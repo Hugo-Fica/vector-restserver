@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start":"node app.js",
     "lint": "eslint . --fix",
-    "prepare": "--omit=dev husky install"
+    "prepare": "--omit=dev"
   },
   "keywords": [],
   "author": "",
