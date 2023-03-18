@@ -6,7 +6,8 @@ class Server {
   constructor() {
     this.app = express();
     this.port = process.env.PORT;
-    this.userPath = '/api/vector';
+    this.requestPath = '/api/dbapp';
+    this.authPath = '/api/auth';
     this.connectDB();
     this.middlewares();
     this.routes();
@@ -23,7 +24,9 @@ class Server {
   }
 
   routes() {
-    this.app.use(this.userPath, require('../routes/user.routes'));
+    this.app.use(this.requestPath, require('../routes/user.routes'));
+    this.app.use(this.requestPath, require('../routes/vector.routes'));
+    this.app.use(this.authPath, require('../routes/auth.routes'));
   }
 
   listen() {

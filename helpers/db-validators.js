@@ -1,4 +1,12 @@
 const User = require('../models/user.models');
+const Role = require('../models/role.models');
+
+const validatorRole = async (role = '') => {
+  const thereRole = await Role.findOne({ role });
+  if (!thereRole) {
+    throw new Error(`this role '${role}' is not registered in the DB`);
+  }
+};
 
 const validatorEmail = async (email = '') => {
   const thereEmail = await User.findOne({ email });
@@ -13,6 +21,7 @@ const thereUserById = async (id = '') => {
   }
 };
 module.exports = {
+  validatorRole,
   validatorEmail,
   thereUserById,
 };

@@ -14,13 +14,25 @@ const UserSchema = Schema({
     type: String,
     required: [true, 'Password is required'],
   },
+  role: {
+    type: String,
+    required: true,
+  },
   state: {
     type: Boolean,
     default: true,
   },
+  img: {
+    type: String,
+  },
+  google: {
+    type: Boolean,
+    default: false,
+  },
 });
 UserSchema.methods.toJSON = function () {
-  const { __v, pass, ...user } = this.toObject();
+  const { __v, pass, _id, ...user } = this.toObject();
+  user.uid = _id;
   return user;
 };
 module.exports = model('User', UserSchema);

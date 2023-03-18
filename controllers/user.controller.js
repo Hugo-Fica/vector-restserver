@@ -10,7 +10,6 @@ const userGet = async (req = request, res = response) => {
     User.countDocuments(query),
     User.find(query).skip(from).limit(limit),
   ]);
-
   res.json({ total, users });
 };
 const userPut = async (req = request, res = response) => {
@@ -22,28 +21,26 @@ const userPut = async (req = request, res = response) => {
   }
   const user = await User.findByIdAndUpdate(id, resto);
   res.json({
-    msg: 'correctly updated data',
+    msg: 'Correctly updated data.',
     user,
   });
 };
 const userPost = async (req = request, res = response) => {
-  const { name, email, pass } = req.body;
-  const user = new User({ name, email, pass });
-
+  const { name, email, pass, role } = req.body;
+  const user = new User({ name, email, pass, role });
   const salt = bcryptjs.genSaltSync();
   user.pass = bcryptjs.hashSync(pass, salt);
   await user.save();
   res.json({
-    msg: 'user successfully added',
+    msg: 'User successfully added.',
     user,
   });
 };
 const userDelete = async (req = request, res = response) => {
   const { id } = req.params;
   const user = await User.findByIdAndUpdate(id, { state: false });
-
   res.json({
-    msg: 'user successfully deleted',
+    msg: 'User successfully deleted.',
     user,
   });
 };

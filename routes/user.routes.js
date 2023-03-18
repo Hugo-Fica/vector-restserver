@@ -6,22 +6,31 @@ const {
   userPost,
   userDelete,
 } = require('../controllers/user.controller');
-const { validatorEmail, thereUserById } = require('../helpers/db-validators');
-const { fieldValidation } = require('../middlewares/field-validation');
+const {
+  validatorEmail,
+  thereUserById,
+  validatorRole,
+} = require('../helpers/db-validators');
 
-const router = Router();
+const {
+  fieldValidation,
+  validationJWT,
+  isAdminRole,
+} = require('../middlewares');
+const userRouter = Router();
 
-router.get('/getUsers', userGet);
-router.put(
+userRouter.get('/getUsers', userGet);
+userRouter.put(
   '/:id',
   [
     check('id', 'is not a valid id').isMongoId(),
     check('id').custom(thereUserById),
+    check('role').custom(validatorRole),
     fieldValidation,
   ],
   userPut,
 );
-router.post(
+userRouter.post(
   '/addUser',
   [
     check('email', 'email is not valid').isEmail(),
@@ -34,18 +43,22 @@ router.post(
       .isLength({ min: 6 })
       .not()
       .isEmpty(),
+    check('role').custom(validatorRole),
     fieldValidation,
   ],
   userPost,
 );
-router.delete(
+userRouter.delete(
   '/:id',
   [
+    validationJWT,
+    isAdminRole,
     check('id', 'is not a valid id').isMongoId(),
     check('id').custom(thereUserById),
+    check('role').custom(validatorRole),
     fieldValidation,
   ],
   userDelete,
 );
 
-module.exports = router;
+module.exports = userRouter;
