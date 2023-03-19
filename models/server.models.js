@@ -10,6 +10,7 @@ class Server {
       auth: '/api/auth',
       user: '/api/user',
       vector: '/api/vector',
+      valueVector: '/api/valueVector',
     };
     this.connectDB();
     this.middlewares();
@@ -30,6 +31,10 @@ class Server {
     this.app.use(this.paths.user, require('../routes/user.routes'));
     this.app.use(this.paths.vector, require('../routes/vector.routes'));
     this.app.use(this.paths.auth, require('../routes/auth.routes'));
+    this.app.use(
+      this.paths.valueVector,
+      require('../routes/valueVector.routes'),
+    );
   }
 
   listen() {

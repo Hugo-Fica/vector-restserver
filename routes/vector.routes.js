@@ -37,11 +37,9 @@ vectorRouter.put(
   '/:id',
   [
     validationJWT,
-    check('name', 'Name is required.').not().isEmpty(),
-    check('area', 'Area is required.').not().isEmpty(),
-    check('activity', 'Activity is required.').not().isEmpty(),
     check('id', 'is not a valid id').isMongoId(),
     check('id').custom(thereVectorById),
+    check('name', 'Name is required').not().isEmpty(),
     fieldValidation,
   ],
   vectorPut,
