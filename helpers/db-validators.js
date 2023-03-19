@@ -1,5 +1,4 @@
-const User = require('../models/user.models');
-const Role = require('../models/role.models');
+const { Vector, Role, User } = require('../models');
 
 const validatorRole = async (role = '') => {
   const thereRole = await Role.findOne({ role });
@@ -20,8 +19,16 @@ const thereUserById = async (id = '') => {
     throw new Error(`this id: '${id}' does not exist`);
   }
 };
+const thereVectorById = async (id = '') => {
+  const thereVector = await Vector.findOne({ id });
+  if (thereVector) {
+    throw new Error(`this id: '${id}' does not exist`);
+  }
+};
+
 module.exports = {
   validatorRole,
   validatorEmail,
   thereUserById,
+  thereVectorById,
 };
