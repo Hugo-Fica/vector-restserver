@@ -12,6 +12,11 @@ const userGet = async (req = request, res = response) => {
   ]);
   res.json({ total, users });
 };
+const userGetById = async (req = request, res = response) => {
+  const { id } = req.params;
+  const user = await User.findById(id);
+  res.json(user);
+};
 const userPut = async (req = request, res = response) => {
   const { id } = req.params;
   const { _id, pass, ...resto } = req.body;
@@ -50,4 +55,5 @@ module.exports = {
   userPut,
   userPost,
   userDelete,
+  userGetById,
 };

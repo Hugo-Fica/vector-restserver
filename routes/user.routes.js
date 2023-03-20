@@ -5,11 +5,13 @@ const {
   userPut,
   userPost,
   userDelete,
+  userGetById,
 } = require('../controllers/user.controller');
 const {
   validatorEmail,
   thereUserById,
   validatorRole,
+  thereVectorById,
 } = require('../helpers/db-validators');
 
 const {
@@ -19,10 +21,21 @@ const {
 } = require('../middlewares');
 const userRouter = Router();
 
-userRouter.get('/getUsers', userGet);
+userRouter.get('/getUsers', [validationJWT], userGet);
+userRouter.get(
+  '/:id',
+  [
+    validationJWT,
+    check('id', 'is not a valid id').isMongoId(),
+    check('id').custom(thereVectorById),
+    fieldValidation,
+  ],
+  userGetById,
+);
 userRouter.put(
   '/:id',
   [
+    validationJWT,
     check('id', 'is not a valid id').isMongoId(),
     check('id').custom(thereUserById),
     check('role').custom(validatorRole),
@@ -33,6 +46,7 @@ userRouter.put(
 userRouter.post(
   '/addUser',
   [
+    validationJWT,
     check('email', 'email is not valid').isEmail(),
     check('email', 'email is not valid').custom(validatorEmail),
     check('name', 'name is requerid').not().isEmpty(),
