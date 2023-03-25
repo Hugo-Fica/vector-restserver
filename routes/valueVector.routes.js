@@ -6,12 +6,14 @@ const {
   valueVectorGetById,
   valueVectorPut,
   valueVectorDelete,
+  valueVectorGetByIdVector,
 } = require('../controllers/valueVector.controller');
 const { thereVectorById } = require('../helpers/db-validators');
 const { validationJWT, fieldValidation } = require('../middlewares');
 
 const valueVectorRouter = Router();
 valueVectorRouter.get('/getValues', [validationJWT], valueVectorGets);
+valueVectorRouter.get('/:id', [validationJWT], valueVectorGetByIdVector);
 valueVectorRouter.get(
   '/:id',
   [

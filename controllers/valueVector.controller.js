@@ -2,15 +2,10 @@ const { request, response } = require('express');
 const { VectorValue } = require('../models');
 
 const valueVectorGets = async (req = request, res = response) => {
-  const { limit = 5, from = 0 } = req.query;
   const query = { state: true };
   const [total, valueVectors] = await Promise.all([
     VectorValue.countDocuments(query),
-    VectorValue.find(query)
-      .populate('user', 'name')
-      .populate('vector', 'name')
-      .skip(from)
-      .limit(limit),
+    VectorValue.find(query).populate().populate(),
   ]);
   res.json({ total, valueVectors });
 };
@@ -21,11 +16,20 @@ const valueVectorGetById = async (req = request, res = response) => {
     .populate('vector', 'name');
   res.json(value);
 };
+const valueVectorGetByIdVector = async (req = request, res = response) => {
+  const { id } = req.params;
+  const query = { state: true };
+  const value = { vector: id };
+  const [total, valueVectors] = await Promise.all([
+    VectorValue.countDocuments(query),
+    VectorValue.find(value).populate().populate(),
+  ]);
+  res.json({ total, valueVectors });
+};
 const valueVectorPost = async (req = request, res = response) => {
   const { state, user, ...body } = req.body;
   const period = req.body.period.toUpperCase();
   //   const valueDB = await VectorValue.findOne({ period });
-
   //   if (valueDB) {
   //     return res.status(400).json({
   //       msg: `The period '${period}' already exists`,
@@ -65,6 +69,7 @@ const valueVectorDelete = async (req = request, res = response) => {
 };
 
 module.exports = {
+  valueVectorGetByIdVector,
   valueVectorGets,
   valueVectorGetById,
   valueVectorPost,

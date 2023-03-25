@@ -12,10 +12,11 @@ const { fieldValidation, validationJWT } = require('../middlewares');
 
 const vectorRouter = Router();
 
-vectorRouter.get('/getVectors', vectorGets);
+vectorRouter.get('/getVectors', [validationJWT], vectorGets);
 vectorRouter.get(
   '/:id',
   [
+    validationJWT,
     check('id', 'is not a valid id').isMongoId(),
     check('id').custom(thereVectorById),
     fieldValidation,

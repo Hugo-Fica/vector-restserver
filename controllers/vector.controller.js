@@ -2,11 +2,10 @@ const { request, response } = require('express');
 const { Vector } = require('../models');
 
 const vectorGets = async (req = request, res = response) => {
-  const { limit = 5, from = 0 } = req.query;
   const query = { state: true };
   const [total, vectors] = await Promise.all([
     Vector.countDocuments(query),
-    Vector.find(query).populate('user', 'name').skip(from).limit(limit),
+    Vector.find(query).populate('user', 'name'),
   ]);
   res.json({ total, vectors });
 };
