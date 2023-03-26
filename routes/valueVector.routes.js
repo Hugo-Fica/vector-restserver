@@ -28,8 +28,8 @@ valueVectorRouter.post(
   '/addValueVector',
   [
     validationJWT,
-    // check('period', 'Period is required').not().isEmpty(),
-    check('value', 'Value is required').not().isEmpty(),
+    check('period', 'Period is required').not().isEmpty(),
+    check('value').not().isEmpty(),
     check('position').not().isEmpty(),
     fieldValidation,
   ],

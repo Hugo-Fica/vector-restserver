@@ -5,9 +5,7 @@ const valueVectorGets = async (req = request, res = response) => {
   const query = { state: true };
   const [total, valueVectors] = await Promise.all([
     VectorValue.countDocuments(query),
-    VectorValue.find(query)
-      .populate()
-      .populate('vector', 'area name activity '),
+    VectorValue.find(query).populate().populate(),
   ]);
   res.json({ total, valueVectors });
 };
@@ -24,7 +22,7 @@ const valueVectorGetByIdVector = async (req = request, res = response) => {
   const value = { vector: id };
   const [total, valueVectors] = await Promise.all([
     VectorValue.countDocuments(query),
-    VectorValue.find(value).populate().populate('vector', 'area', 'name'),
+    VectorValue.find(value).populate().populate(),
   ]);
   res.json({ total, valueVectors });
 };
