@@ -1,5 +1,5 @@
 const { request, response } = require('express');
-const { Vector } = require('../models');
+const { Vector, VectorValue } = require('../models');
 
 const vectorGets = async (req = request, res = response) => {
   const query = { state: true };
@@ -49,8 +49,16 @@ const vectorPut = async (req = request, res = response) => {
 };
 const vectorDelete = async (req = request, res = response) => {
   const { id } = req.params;
-  const vectorRemoved = await Vector.findByIdAndUpdate(id, { state: false });
-  res.json({ msg: 'Vector successfully removed.', vectorRemoved });
+  // const vectorRemoved = await Vector.findByIdAndUpdate(id, { state: false });
+  const [deleteVector, deleteVectorValue] = await Promise.all([
+    Vector.findByIdAndUpdate(id, { state: false }),
+    VectorValue.updateMany({ vector: id }, { state: false }),
+  ]);
+  res.json({
+    msg: 'Vector successfully removed.',
+    deleteVector,
+    deleteVectorValue,
+  });
 };
 module.exports = {
   vectorPost,
