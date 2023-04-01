@@ -11,6 +11,7 @@ class Server {
       user: '/api/user',
       vector: '/api/vector',
       valueVector: '/api/valueVector',
+      areaVector: '/api/areaVector',
     };
     this.connectDB();
     this.middlewares();
@@ -35,6 +36,7 @@ class Server {
       this.paths.valueVector,
       require('../routes/valueVector.routes'),
     );
+    this.app.use(this.paths.areaVector, require('../routes/areaVector.routes'));
   }
 
   listen() {
