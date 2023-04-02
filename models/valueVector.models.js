@@ -5,10 +5,6 @@ const ValueVectorSchema = Schema({
     type: String,
     required: [true, 'Period is required'],
   },
-  area: {
-    type: String,
-    required: [true, 'Area is required'],
-  },
   value: {
     type: Number,
     required: [true, 'Value is required'],
