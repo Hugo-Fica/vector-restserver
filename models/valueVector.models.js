@@ -29,6 +29,10 @@ const ValueVectorSchema = Schema({
     ref: 'Vector',
     required: true,
   },
+  area: {
+    type: String,
+    required: [true, 'Area is required'],
+  },
 });
 ValueVectorSchema.methods.toJSON = function () {
   const { __v, state, ...user } = this.toObject();
